@@ -1,0 +1,46 @@
+<!-- templates/inventory/transaction_report.html -->
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Transaction Report</h2>
+
+<!-- 🔍 Filter Form -->
+<form method="get" class="mb-4 d-flex" style="max-width: 400px;">
+    <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Search product...">
+    <button class="btn btn-outline-secondary">Filter</button>
+</form>
+
+<!-- 📊 Transaction Table -->
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in transactions %}
+                <tr class="text-center">
+                    <td>{{ tx.product.name }}</td>
+                    <td>
+                        {% if tx.transaction_type == 'IN' %}
+                            <span class="badge bg-success">Stock In</span>
+                        {% else %}
+                            <span class="badge bg-danger">Stock Out</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ tx.quantity }}</td>
+                    <td>{{ tx.date|date:"Y-m-d H:i" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No transactions found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

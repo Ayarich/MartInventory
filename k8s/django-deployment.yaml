@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: your-django-image:latest
+        env:
+        - name: DATABASE_NAME
+          value: inventorydb
+        - name: DATABASE_USER
+          value: user
+        - name: DATABASE_PASSWORD
+          value: password
+        - name: DATABASE_HOST
+          value: postgres
+        ports:
+        - containerPort: 8000

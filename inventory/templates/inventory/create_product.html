@@ -1,0 +1,14 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Add New Product</h2>
+
+<form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Create Product</button>
+    </div>
+</form>
+<a href="{% url 'product_list' %}" class="btn btn-link mt-3">← Back to Product List</a>
+{% endblock %}

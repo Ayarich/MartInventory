@@ -1,0 +1,100 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">📊 Inventory Transactions - Last 30 Days</h2>
+
+<div class="card shadow border-0 p-4">
+    <canvas id="inventoryChart" height="100"></canvas>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('inventoryChart').getContext('2d');
+
+    const inventoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [
+                {
+                    label: 'Stock In',
+                    data: {{ stock_in_data|safe }},
+                    backgroundColor: 'rgba(25, 135, 84, 0.8)',
+                    borderColor: 'rgba(25, 135, 84, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    barThickness: 20
+                },
+                {
+                    label: 'Stock Out',
+                    data: {{ stock_out_data|safe }},
+                    backgroundColor: 'rgba(220, 53, 69, 0.8)',
+                    borderColor: 'rgba(220, 53, 69, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    barThickness: 20
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#343a40',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 10
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantity',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    },
+                    grid: {
+                        color: 'rgba(0,0,0,0.05)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Product',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 0
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
